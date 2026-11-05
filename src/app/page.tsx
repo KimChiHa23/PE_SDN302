@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ShieldCheck, Sparkles, Zap, ArrowRight } from "lucide-react"
+import { ShieldCheck, Sparkles, Zap, ArrowRight, BarChart3, Tag } from "lucide-react"
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-palette-100 border border-palette-200 text-palette-500 text-xs sm:text-sm font-medium shadow-sm">
             <Sparkles className="w-4 h-4 text-palette-400" />
-            <span>SDN302 Modern Architecture Starter</span>
+            <span>Smart Personal Expense Tracking</span>
           </div>
 
           <h1
@@ -23,7 +23,7 @@ export default function Home() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed">
-            Nền tảng ứng dụng hiện đại với kiến trúc Next.js App Router, hệ thống xác thực bảo mật JWT HttpOnly Cookie, tích hợp Prisma ORM và Supabase PostgreSQL.
+            Easily track what was spent, how much, on which category, and when. Keep important expenses starred and view real-time spending summaries.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export default function Home() {
             className="bg-palette-500 hover:bg-palette-400 text-white font-medium px-8 shadow-lg shadow-palette-500/25 transition-all hover:scale-105"
           >
             <Link href="/register" className="flex items-center gap-2">
-              Bắt đầu ngay <ArrowRight className="w-4 h-4" />
+              Get Started <ArrowRight className="w-4 h-4" />
             </Link>
           </Button>
 
@@ -47,7 +47,7 @@ export default function Home() {
             data-testid="btn-login"
             className="border-palette-300 text-palette-500 hover:bg-palette-100 hover:text-palette-500 font-medium px-8"
           >
-            <Link href="/login">Đăng nhập</Link>
+            <Link href="/login">Login</Link>
           </Button>
         </div>
 
@@ -56,23 +56,11 @@ export default function Home() {
           <Card className="border-palette-100 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-palette-300 transition-all">
             <CardHeader>
               <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <CardTitle className="text-lg font-bold text-slate-800">Bảo mật xác thực</CardTitle>
-              <CardDescription className="text-slate-500">
-                JWT HttpOnly Cookie session bảo vệ toàn diện dữ liệu cá nhân theo từng người dùng.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="border-palette-100 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-palette-300 transition-all">
-            <CardHeader>
-              <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
                 <Zap className="w-5 h-5" />
               </div>
-              <CardTitle className="text-lg font-bold text-slate-800">Hiệu năng tối ưu</CardTitle>
+              <CardTitle className="text-lg font-bold text-slate-800">Track spending</CardTitle>
               <CardDescription className="text-slate-500">
-                Next.js App Router kết hợp Tailwind CSS & ShadCN UI mang lại giao diện tinh tế, mượt mà.
+                Log expenses quickly with accurate amounts, dates, notes, and favorite star marks.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -80,11 +68,23 @@ export default function Home() {
           <Card className="border-palette-100 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-palette-300 transition-all">
             <CardHeader>
               <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
-                <Sparkles className="w-5 h-5" />
+                <Tag className="w-5 h-5" />
               </div>
-              <CardTitle className="text-lg font-bold text-slate-800">Supabase Postgres</CardTitle>
+              <CardTitle className="text-lg font-bold text-slate-800">Sort into categories</CardTitle>
               <CardDescription className="text-slate-500">
-                Tích hợp Prisma ORM và Supabase Pooler chuẩn hóa cơ sở dữ liệu trên cloud.
+                Organize costs into Food, Transport, Bills, Shopping, or Other with instant filtering.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-palette-100 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-palette-300 transition-all">
+            <CardHeader>
+              <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
+                <BarChart3 className="w-5 h-5" />
+              </div>
+              <CardTitle className="text-lg font-bold text-slate-800">See where it goes</CardTitle>
+              <CardDescription className="text-slate-500">
+                Get an instant live breakdown by category and total amounts at a single glance.
               </CardDescription>
             </CardHeader>
           </Card>
