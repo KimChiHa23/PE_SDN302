@@ -1,32 +1,50 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useRouter, usePathname } from "next/navigation"
+import { useEffect, useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 
 export function Navbar() {
   const router = useRouter()
+  const pathname = usePathname()
   const [user, setUser] = useState<{ id: string; email: string } | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
+  const checkAuth = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/me", { cache: "no-store" })
+      if (res.ok) {
+        const data = await res.json()
         setUser(data)
-        setLoading(false)
-      })
-      .catch(() => {
+      } else {
         setUser(null)
-        setLoading(false)
-      })
+      }
+    } catch {
+      setUser(null)
+    } finally {
+      setLoading(false)
+    }
   }, [])
+
+  useEffect(() => {
+    checkAuth()
+
+    const handleAuthChange = () => {
+      checkAuth()
+    }
+
+    window.addEventListener("auth-change", handleAuthChange)
+    return () => {
+      window.removeEventListener("auth-change", handleAuthChange)
+    }
+  }, [checkAuth, pathname])
 
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" })
       setUser(null)
+      window.dispatchEvent(new Event("auth-change"))
       router.push("/login")
       router.refresh()
     } catch (e) {

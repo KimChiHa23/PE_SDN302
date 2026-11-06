@@ -85,6 +85,7 @@ export default function LoginPage() {
         return
       }
 
+      window.dispatchEvent(new Event("auth-change"))
       router.push("/reading-logs")
       router.refresh()
     } catch {

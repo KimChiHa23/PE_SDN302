@@ -604,6 +604,7 @@ export default function ReadingLogsPage() {
           router.push("/login")
         } else {
           setAuthChecked(true)
+          window.dispatchEvent(new Event("auth-change"))
         }
       })
       .catch(() => {
