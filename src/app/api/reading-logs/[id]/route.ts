@@ -58,13 +58,15 @@ export async function PATCH(
 
     // Validate minutesRead if provided
     if (minutesRead !== undefined) {
-      if (minutesRead === null || minutesRead === "") {
+      if (
+        minutesRead === null ||
+        minutesRead === "" ||
+        (typeof minutesRead === "string" && !minutesRead.trim()) ||
+        isNaN(Number(minutesRead))
+      ) {
         return NextResponse.json({ error: "Minutes read is required" }, { status: 400 })
       }
       const numMinutes = Number(minutesRead)
-      if (isNaN(numMinutes)) {
-        return NextResponse.json({ error: "Minutes read is required" }, { status: 400 })
-      }
       if (numMinutes <= 0) {
         return NextResponse.json({ error: "Minutes read must be a positive number" }, { status: 400 })
       }
@@ -95,7 +97,7 @@ export async function PATCH(
     }
 
     if (note !== undefined) {
-      updateData.note = note ? String(note) : ""
+      updateData.note = note ? String(note).trim() : ""
     }
 
     if (favorite !== undefined) {

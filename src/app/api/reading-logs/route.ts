@@ -71,7 +71,18 @@ export async function GET(req: NextRequest) {
       return a.bookTitle.toLowerCase().localeCompare(b.bookTitle.toLowerCase())
     })
 
-    return NextResponse.json(logs, { status: 200 })
+    const result = logs.map((log) => ({
+      id: log.id,
+      bookTitle: log.bookTitle,
+      minutesRead: log.minutesRead,
+      genre: log.genre,
+      note: log.note ?? "",
+      favorite: log.favorite,
+      readOn: log.readOn,
+      createdAt: log.createdAt,
+    }))
+
+    return NextResponse.json(result, { status: 200 })
   } catch (error) {
     console.error("GET reading-logs error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
@@ -103,13 +114,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Validation: Minutes read
-    if (minutesRead === undefined || minutesRead === null || minutesRead === "") {
+    if (
+      minutesRead === undefined ||
+      minutesRead === null ||
+      minutesRead === "" ||
+      (typeof minutesRead === "string" && !minutesRead.trim()) ||
+      isNaN(Number(minutesRead))
+    ) {
       return NextResponse.json({ error: "Minutes read is required" }, { status: 400 })
     }
     const numMinutes = Number(minutesRead)
-    if (isNaN(numMinutes)) {
-      return NextResponse.json({ error: "Minutes read is required" }, { status: 400 })
-    }
     if (numMinutes <= 0) {
       return NextResponse.json({ error: "Minutes read must be a positive number" }, { status: 400 })
     }
@@ -157,7 +171,7 @@ export async function POST(req: NextRequest) {
         bookTitle: bookTitle.trim(),
         minutesRead: Math.round(numMinutes),
         genre: genre.trim(),
-        note: note ? String(note) : "",
+        note: note ? String(note).trim() : "",
         favorite: false,
         readOn: readOn.trim(),
       },
@@ -173,7 +187,13 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    return NextResponse.json(created, { status: 201 })
+    return NextResponse.json(
+      {
+        ...created,
+        note: created.note ?? "",
+      },
+      { status: 201 }
+    )
   } catch (error) {
     console.error("POST reading-logs error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

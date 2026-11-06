@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Password must be at least 6 characters" }, { status: 400 })
     }
 
-    if (confirmPassword !== undefined && password !== confirmPassword) {
+    if (confirmPassword === undefined || confirmPassword === null || (typeof confirmPassword === "string" && !confirmPassword.trim())) {
+      return NextResponse.json({ error: "Confirm password is required" }, { status: 400 })
+    }
+
+    if (password !== confirmPassword) {
       return NextResponse.json({ error: "Passwords do not match" }, { status: 400 })
     }
 
