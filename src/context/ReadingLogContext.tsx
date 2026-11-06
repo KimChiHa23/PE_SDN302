@@ -118,31 +118,79 @@ export function ReadingLogProvider({ children }: { children: React.ReactNode }) 
     }
   }
 
+  // Tối ưu phản hồi tức thì (Optimistic UI Update) - 0ms delay!
   const toggleFavorite = async (id: string, currentVal: boolean) => {
+    const newVal = !currentVal
+
+    // 1. Cập nhật state màn hình ngay lập tức (0ms)
+    setLogs((prev) => {
+      if (filters.favorite && !newVal) {
+        // Nếu "favorites only" đang bật và un-star -> biến mất khỏi list ngay lập tức
+        return prev.filter((item) => item.id !== id)
+      }
+      return prev.map((item) => (item.id === id ? { ...item, favorite: newVal } : item))
+    })
+
+    setSummary((prev) => {
+      const target = logs.find((l) => l.id === id)
+      const isFilteredOut = filters.favorite && !newVal
+      const newFavCount = newVal ? prev.favoriteCount + 1 : Math.max(0, prev.favoriteCount - 1)
+      const newTotalCount = isFilteredOut ? Math.max(0, prev.count - 1) : prev.count
+      const newTotalMinutes = isFilteredOut && target ? Math.max(0, prev.totalMinutes - target.minutesRead) : prev.totalMinutes
+
+      return {
+        ...prev,
+        favoriteCount: newFavCount,
+        count: newTotalCount,
+        totalMinutes: newTotalMinutes,
+      }
+    })
+
+    // 2. Gửi request PATCH ngầm ở background
     try {
       const res = await fetch(`/api/reading-logs/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ favorite: !currentVal }),
+        body: JSON.stringify({ favorite: newVal }),
       })
-      if (res.ok) {
+      if (!res.ok) {
+        // Rollback nếu có lỗi
         await fetchData()
+      } else {
+        // Đồng bộ dữ liệu summary chính xác từ backend ngầm
+        fetchData()
       }
-    } catch (e) {
-      console.error("Error toggling favorite:", e)
+    } catch {
+      await fetchData()
     }
   }
 
+  // Tối ưu phản hồi tức thì cho Delete (Optimistic Delete) - 0ms delay!
   const deleteLog = async (id: string) => {
+    const target = logs.find((l) => l.id === id)
+
+    // Cập nhật state ngay lập tức
+    setLogs((prev) => prev.filter((item) => item.id !== id))
+    if (target) {
+      setSummary((prev) => ({
+        ...prev,
+        count: Math.max(0, prev.count - 1),
+        favoriteCount: target.favorite ? Math.max(0, prev.favoriteCount - 1) : prev.favoriteCount,
+        totalMinutes: Math.max(0, prev.totalMinutes - target.minutesRead),
+      }))
+    }
+
     try {
       const res = await fetch(`/api/reading-logs/${id}`, {
         method: "DELETE",
       })
-      if (res.ok) {
+      if (!res.ok) {
         await fetchData()
+      } else {
+        fetchData()
       }
-    } catch (e) {
-      console.error("Error deleting log:", e)
+    } catch {
+      await fetchData()
     }
   }
 
@@ -186,4 +234,3 @@ export function useReadingLogs() {
   }
   return context
 }
-
