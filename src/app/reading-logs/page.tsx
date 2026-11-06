@@ -6,8 +6,8 @@ import { ReadingLogProvider, useReadingLogs, ReadingLog } from "@/context/Readin
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Trash2, BookOpen, Clock, Tag, Calendar, Search, RotateCcw } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Star, Trash2, BookOpen, Clock, Tag, Calendar, Search, RotateCcw, Sparkles, PlusCircle, Bookmark, CheckCircle2 } from "lucide-react"
 
 const GENRES = ["Fiction", "Non-Fiction", "Sci-Fi", "Biography", "Other"]
 
@@ -196,58 +196,76 @@ function ReadingLogsContent() {
   }
 
   return (
-    <div data-testid="reading-logs-page" className="flex-1 w-full max-w-7xl mx-auto px-4 py-8 space-y-8">
-      {/* Page Heading */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-palette-100">
-        <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+    <div data-testid="reading-logs-page" className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      
+      {/* Top Banner Header */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-palette-500 via-palette-500 to-palette-400 p-6 sm:p-8 text-white shadow-lg shadow-palette-500/20">
+        <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="relative z-10 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-palette-100 text-xs font-semibold">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Personal Dashboard</span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             Reading Sessions
           </h1>
-          <p className="text-slate-500 mt-1">
-            Track and monitor your daily reading journey and habit consistency.
+          <p className="text-white/80 text-sm sm:text-base max-w-xl font-normal">
+            Track and monitor your daily reading journey, build consistency, and highlight memorable books.
           </p>
         </div>
       </div>
 
-      {/* Main Grid: Left (Form & Summary), Right (Filters & List) */}
+      {/* Main 2-Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left Column (lg: 5 cols): Form & Summary */}
+        {/* Left Column (lg: 5 cols): Add Form & Summary Widgets */}
         <div className="lg:col-span-5 space-y-6">
           
-          {/* Add Session Form */}
-          <Card className="border-palette-100 shadow-md bg-white">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-palette-500" />
-                Add Reading Session
-              </CardTitle>
+          {/* Add Session Form Card */}
+          <Card className="border border-palette-100/90 shadow-sm hover:shadow-md transition-shadow bg-white rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-b from-palette-100/30 to-transparent pb-4 border-b border-palette-100/40">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-palette-100 text-palette-500 flex items-center justify-center font-bold">
+                  <PlusCircle className="w-4 h-4 text-palette-500" />
+                </div>
+                <div>
+                  <CardTitle className="text-lg font-bold text-slate-900">
+                    Add Reading Session
+                  </CardTitle>
+                  <CardDescription className="text-xs text-slate-500">
+                    Enter the details of your recent reading
+                  </CardDescription>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
+
+            <CardContent className="pt-5">
               <form onSubmit={handleFormSubmit} noValidate data-testid="reading-log-form" className="space-y-4">
                 
-                {/* Messages */}
+                {/* Success Message */}
                 {formSuccess && (
                   <div
                     data-testid="reading-log-success"
-                    className="p-3 text-sm rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-medium"
+                    className="p-3 text-sm rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold flex items-center gap-2 shadow-sm animate-in fade-in"
                   >
-                    Reading session added
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                    <span>Reading session added</span>
                   </div>
                 )}
 
+                {/* API Error Message */}
                 {formErrors.apiError && (
                   <div
                     data-testid="error-reading-log"
-                    className="p-3 text-sm rounded-lg bg-red-50 border border-red-200 text-red-600 font-medium"
+                    className="p-3 text-sm rounded-xl bg-red-50 border border-red-200 text-red-700 font-semibold shadow-sm animate-in fade-in"
                   >
                     {formErrors.apiError}
                   </div>
                 )}
 
                 {/* Book Title */}
-                <div className="space-y-1">
-                  <Label htmlFor="bookTitle" className="text-slate-700 font-medium text-xs">
+                <div className="space-y-1.5">
+                  <Label htmlFor="bookTitle" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                     Book Title
                   </Label>
                   <Input
@@ -257,20 +275,20 @@ function ReadingLogsContent() {
                     value={bookTitle}
                     onChange={handleTitleChange}
                     data-testid="input-book-title"
-                    className={formErrors.bookTitle ? "border-red-500" : "border-slate-200"}
+                    className={`rounded-xl h-10 ${formErrors.bookTitle ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-palette-400"}`}
                   />
                   {formErrors.bookTitle && (
-                    <p data-testid="error-book-title" className="text-xs text-red-500 font-medium mt-1">
+                    <p data-testid="error-book-title" className="text-xs text-red-500 font-semibold mt-1">
                       {formErrors.bookTitle}
                     </p>
                   )}
                 </div>
 
                 {/* Minutes Read & Genre Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {/* Minutes Read */}
-                  <div className="space-y-1">
-                    <Label htmlFor="minutesRead" className="text-slate-700 font-medium text-xs">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="minutesRead" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                       Minutes Read
                     </Label>
                     <Input
@@ -280,18 +298,18 @@ function ReadingLogsContent() {
                       value={minutesRead}
                       onChange={handleMinutesChange}
                       data-testid="input-minutes"
-                      className={formErrors.minutesRead ? "border-red-500" : "border-slate-200"}
+                      className={`rounded-xl h-10 ${formErrors.minutesRead ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-palette-400"}`}
                     />
                     {formErrors.minutesRead && (
-                      <p data-testid="error-minutes" className="text-xs text-red-500 font-medium mt-1">
+                      <p data-testid="error-minutes" className="text-xs text-red-500 font-semibold mt-1">
                         {formErrors.minutesRead}
                       </p>
                     )}
                   </div>
 
                   {/* Genre */}
-                  <div className="space-y-1">
-                    <Label htmlFor="genre" className="text-slate-700 font-medium text-xs">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="genre" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                       Genre
                     </Label>
                     <select
@@ -299,7 +317,7 @@ function ReadingLogsContent() {
                       value={genre}
                       onChange={handleGenreChange}
                       data-testid="input-genre"
-                      className={`flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-palette-400 ${
+                      className={`flex h-10 w-full rounded-xl border bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-palette-400 ${
                         formErrors.genre ? "border-red-500" : "border-slate-200"
                       }`}
                     >
@@ -311,7 +329,7 @@ function ReadingLogsContent() {
                       ))}
                     </select>
                     {formErrors.genre && (
-                      <p data-testid="error-genre" className="text-xs text-red-500 font-medium mt-1">
+                      <p data-testid="error-genre" className="text-xs text-red-500 font-semibold mt-1">
                         {formErrors.genre}
                       </p>
                     )}
@@ -319,8 +337,8 @@ function ReadingLogsContent() {
                 </div>
 
                 {/* Date */}
-                <div className="space-y-1">
-                  <Label htmlFor="readOn" className="text-slate-700 font-medium text-xs">
+                <div className="space-y-1.5">
+                  <Label htmlFor="readOn" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                     Date
                   </Label>
                   <Input
@@ -329,19 +347,19 @@ function ReadingLogsContent() {
                     value={readOn}
                     onChange={handleDateChange}
                     data-testid="input-date"
-                    className={formErrors.readOn ? "border-red-500" : "border-slate-200"}
+                    className={`rounded-xl h-10 ${formErrors.readOn ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-palette-400"}`}
                   />
                   {formErrors.readOn && (
-                    <p data-testid="error-date" className="text-xs text-red-500 font-medium mt-1">
+                    <p data-testid="error-date" className="text-xs text-red-500 font-semibold mt-1">
                       {formErrors.readOn}
                     </p>
                   )}
                 </div>
 
                 {/* Optional Note */}
-                <div className="space-y-1">
-                  <Label htmlFor="note" className="text-slate-700 font-medium text-xs">
-                    Note (optional)
+                <div className="space-y-1.5">
+                  <Label htmlFor="note" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
+                    Note <span className="text-slate-400 font-normal lowercase">(optional)</span>
                   </Label>
                   <Input
                     id="note"
@@ -350,7 +368,7 @@ function ReadingLogsContent() {
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     data-testid="input-note"
-                    className="border-slate-200"
+                    className="rounded-xl h-10 border-slate-200 focus-visible:ring-palette-400"
                   />
                 </div>
 
@@ -359,73 +377,83 @@ function ReadingLogsContent() {
                   type="submit"
                   disabled={submitting}
                   data-testid="btn-add-reading-log"
-                  className="w-full bg-palette-500 hover:bg-palette-400 text-white font-medium py-2 rounded-lg shadow-md shadow-palette-500/20"
+                  className="w-full bg-gradient-to-r from-palette-500 to-palette-400 hover:opacity-95 text-white font-bold h-11 rounded-xl shadow-md shadow-palette-500/20 hover:shadow-palette-500/30 transition-all mt-2"
                 >
-                  {submitting ? "Adding..." : "Add Reading Session"}
+                  {submitting ? "Adding session..." : "Add Reading Session"}
                 </Button>
               </form>
             </CardContent>
           </Card>
 
-          {/* Summary Box */}
-          <Card className="border-palette-100 shadow-md bg-white">
-            <CardHeader className="pb-3 border-b border-palette-100/60">
-              <CardTitle className="text-lg font-bold text-slate-800">
-                Session Summary
+          {/* Session Summary Card */}
+          <Card className="border border-palette-100/90 shadow-sm bg-white rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-b from-slate-50 to-transparent pb-3 border-b border-slate-100">
+              <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
+                <Bookmark className="w-4 h-4 text-palette-400" />
+                Live Spending / Reading Summary
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4 space-y-5">
-              {/* Counts Grid */}
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="p-3 bg-palette-100/40 rounded-xl border border-palette-200/50">
-                  <span className="text-xs text-slate-500 block font-medium">Sessions</span>
-                  <span data-testid="reading-log-count" className="text-2xl font-extrabold text-palette-500">
+              
+              {/* 3 Metric Badges */}
+              <div className="grid grid-cols-3 gap-2.5 text-center">
+                <div className="p-3 bg-gradient-to-b from-palette-100/40 to-palette-100/20 rounded-xl border border-palette-200/60 shadow-xs">
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Sessions</span>
+                  <span data-testid="reading-log-count" className="text-2xl sm:text-3xl font-black text-palette-500 block mt-0.5">
                     {summary.count}
                   </span>
                 </div>
 
-                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200/60">
-                  <span className="text-xs text-amber-700 block font-medium">Favorites</span>
-                  <span data-testid="favorite-count" className="text-2xl font-extrabold text-amber-600">
+                <div className="p-3 bg-gradient-to-b from-amber-50 to-amber-100/20 rounded-xl border border-amber-200/60 shadow-xs">
+                  <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block">Favorites</span>
+                  <span data-testid="favorite-count" className="text-2xl sm:text-3xl font-black text-amber-600 block mt-0.5">
                     {summary.favoriteCount}
                   </span>
                 </div>
 
-                <div className="p-3 bg-purple-50 rounded-xl border border-purple-200/60">
-                  <span className="text-xs text-purple-700 block font-medium">Minutes</span>
-                  <span data-testid="total-minutes" className="text-2xl font-extrabold text-purple-800">
+                <div className="p-3 bg-gradient-to-b from-purple-50 to-purple-100/20 rounded-xl border border-purple-200/60 shadow-xs">
+                  <span className="text-[11px] font-bold text-purple-700 uppercase tracking-wider block">Total Mins</span>
+                  <span data-testid="total-minutes" className="text-2xl sm:text-3xl font-black text-purple-900 block mt-0.5">
                     {summary.totalMinutes}
                   </span>
                 </div>
               </div>
 
-              {/* Genre Breakdown */}
-              <div className="space-y-2">
-                <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
+              {/* Genre Breakdown List */}
+              <div className="space-y-2.5 pt-1">
+                <span className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
                   Genre Breakdown
                 </span>
+                
                 <div data-testid="genre-breakdown" className="space-y-2">
                   {summary.breakdown.length === 0 ? (
-                    <p className="text-xs text-slate-400 italic py-1">No genre data for current filter.</p>
+                    <div className="p-4 rounded-xl bg-slate-50 border border-dashed border-slate-200 text-center text-xs text-slate-400">
+                      No breakdown data for currently filtered sessions.
+                    </div>
                   ) : (
                     summary.breakdown.map((item) => (
                       <div
                         key={item.genre}
                         data-testid="breakdown-row"
-                        className="flex items-center justify-between text-xs p-2 rounded-lg bg-slate-50 border border-slate-100"
+                        className="flex items-center justify-between text-xs p-2.5 rounded-xl bg-slate-50/80 hover:bg-slate-100/80 border border-slate-100 transition-colors"
                       >
-                        <span data-testid="breakdown-name" className="font-semibold text-slate-800">
-                          {item.genre}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-palette-400" />
+                          <span data-testid="breakdown-name" className="font-bold text-slate-800">
+                            {item.genre}
+                          </span>
+                        </div>
+
                         <div className="flex items-center gap-3">
-                          <span className="text-slate-500">
-                            <span data-testid="breakdown-count" className="font-semibold text-slate-700">
+                          <span className="text-slate-500 font-medium">
+                            <span data-testid="breakdown-count" className="font-bold text-slate-700">
                               {item.count}
                             </span>{" "}
                             {item.count === 1 ? "session" : "sessions"}
                           </span>
-                          <span className="bg-palette-100 text-palette-500 px-2 py-0.5 rounded-full font-bold">
-                            <span data-testid="breakdown-total">{item.total}</span> min
+                          
+                          <span className="bg-palette-100/80 text-palette-500 px-2.5 py-0.5 rounded-full font-extrabold border border-palette-200/60">
+                            <span data-testid="breakdown-total">{item.total}</span> mins
                           </span>
                         </div>
                       </div>
@@ -433,37 +461,39 @@ function ReadingLogsContent() {
                   )}
                 </div>
               </div>
+
             </CardContent>
           </Card>
         </div>
 
-        {/* Right Column (lg: 7 cols): Filters & List */}
+        {/* Right Column (lg: 7 cols): Filter Toolbar & Reading Sessions List */}
         <div className="lg:col-span-7 space-y-6">
           
-          {/* Filters Bar */}
-          <Card className="border-palette-100 shadow-sm bg-white">
+          {/* Enhanced Filter Toolbar */}
+          <Card className="border border-palette-100/90 shadow-sm bg-white rounded-2xl">
             <CardContent className="p-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                {/* Search */}
+                
+                {/* Search Input */}
                 <div className="relative flex-1">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <Input
                     type="text"
                     placeholder="Search by title or note..."
                     value={filters.q}
                     onChange={handleSearchChange}
                     data-testid="search-input"
-                    className="pl-9 h-9 text-xs border-slate-200"
+                    className="pl-10 h-10 text-xs sm:text-sm rounded-xl border-slate-200 focus-visible:ring-palette-400"
                   />
                 </div>
 
-                {/* Genre Select */}
-                <div className="w-full sm:w-40">
+                {/* Genre Select Filter */}
+                <div className="w-full sm:w-44">
                   <select
                     value={filters.genre}
                     onChange={handleFilterGenreChange}
                     data-testid="filter-genre"
-                    className="flex h-9 w-full rounded-md border border-slate-200 bg-transparent px-3 py-1 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-palette-400"
+                    className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-1 text-xs sm:text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-palette-400"
                   >
                     <option value="">All</option>
                     {GENRES.map((g) => (
@@ -474,28 +504,28 @@ function ReadingLogsContent() {
                   </select>
                 </div>
 
-                {/* Favorite Checkbox */}
-                <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-700 whitespace-nowrap px-1">
+                {/* Favorites Only Checkbox */}
+                <label className="flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-semibold text-slate-700 whitespace-nowrap px-1 py-2">
                   <input
                     type="checkbox"
                     checked={filters.favorite}
                     onChange={handleFilterFavoriteChange}
                     data-testid="filter-favorite"
-                    className="rounded border-slate-300 text-palette-500 focus:ring-palette-400 w-4 h-4 cursor-pointer"
+                    className="rounded border-slate-300 text-palette-500 focus:ring-palette-400 w-4 h-4 cursor-pointer accent-palette-500"
                   />
                   <span>Favorites only</span>
                 </label>
 
-                {/* Clear Button */}
+                {/* Clear Filter Button */}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={clearFilters}
                   data-testid="btn-clear-filters"
-                  className="h-9 px-3 text-xs border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 flex items-center gap-1.5"
+                  className="h-10 px-3.5 text-xs font-semibold rounded-xl border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 flex items-center gap-1.5 transition-colors"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Clear
+                  <span>Clear</span>
                 </Button>
               </div>
             </CardContent>
@@ -505,78 +535,82 @@ function ReadingLogsContent() {
           {logs.length === 0 ? (
             <div
               data-testid="reading-logs-empty"
-              className="p-12 text-center bg-white rounded-xl border border-palette-100 shadow-sm text-base font-semibold text-slate-600"
+              className="p-16 text-center bg-white rounded-2xl border border-palette-100/90 shadow-sm text-base font-semibold text-slate-500 space-y-2"
             >
-              No reading sessions found
+              <div className="w-16 h-16 rounded-full bg-palette-100/40 text-palette-400 flex items-center justify-center mx-auto mb-2">
+                <BookOpen className="w-8 h-8 opacity-60" />
+              </div>
+              <p>No reading sessions found</p>
             </div>
           ) : (
-            <div data-testid="reading-log-list" className="space-y-3">
+            <div data-testid="reading-log-list" className="space-y-3.5">
               {logs.map((log: ReadingLog) => (
                 <div
                   key={log.id}
                   data-testid="reading-log-item"
-                  className="p-4 bg-white rounded-xl border border-palette-100 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="p-5 bg-white rounded-2xl border border-palette-100/90 shadow-sm hover:shadow-md hover:border-palette-200 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                 >
-                  {/* Left: Book title, Genre, Date, Note */}
-                  <div className="space-y-1.5 flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
+                  {/* Left content: Title, Genre, Minutes, Date, Note */}
+                  <div className="space-y-2 flex-1 min-w-0">
+                    <div className="flex items-center gap-2.5 flex-wrap">
                       <h3
                         data-testid="reading-log-title"
-                        className="font-bold text-base text-slate-900 truncate"
+                        className="font-extrabold text-lg text-slate-900 tracking-tight truncate group-hover:text-palette-500 transition-colors"
                       >
                         {log.bookTitle}
                       </h3>
+                      
                       <span
                         data-testid="reading-log-genre"
-                        className="px-2 py-0.5 rounded-full text-xs font-semibold bg-palette-100 text-palette-500 border border-palette-200"
+                        className="px-3 py-0.5 rounded-full text-xs font-bold bg-palette-100/80 text-palette-500 border border-palette-200/70 shadow-xs"
                       >
                         {log.genre}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-4 text-xs text-slate-500 flex-wrap">
-                      <div className="flex items-center gap-1 font-semibold text-palette-500">
+                    <div className="flex items-center gap-4 text-xs font-medium text-slate-500 flex-wrap">
+                      <div className="flex items-center gap-1.5 font-bold text-palette-500 bg-palette-100/40 px-2 py-0.5 rounded-md">
                         <Clock className="w-3.5 h-3.5 text-palette-400" />
                         <span>
                           <span data-testid="reading-log-minutes">{log.minutesRead}</span> mins
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5 text-slate-500">
                         <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         <span data-testid="reading-log-date">{log.readOn}</span>
                       </div>
                     </div>
 
                     {log.note && (
-                      <p className="text-xs text-slate-600 italic bg-slate-50 p-1.5 rounded border border-slate-100 mt-1">
+                      <p className="text-xs text-slate-600 italic bg-slate-50/90 px-3 py-1.5 rounded-lg border border-slate-100 mt-1 max-w-xl">
                         &ldquo;{log.note}&rdquo;
                       </p>
                     )}
                   </div>
 
-                  {/* Right: Favorite Toggle & Delete */}
+                  {/* Right actions: Favorite Toggle & Delete Buttons */}
                   <div className="flex items-center gap-2 self-end sm:self-center">
                     <button
                       type="button"
                       data-testid="btn-toggle-favorite"
                       aria-pressed={log.favorite ? "true" : "false"}
                       onClick={() => toggleFavorite(log.id, log.favorite)}
-                      className={`p-2 rounded-lg border transition-all ${
+                      className={`p-2.5 rounded-xl border transition-all duration-150 active:scale-90 ${
                         log.favorite
-                          ? "bg-amber-50 border-amber-200 text-amber-500 hover:bg-amber-100"
-                          : "bg-white border-slate-200 text-slate-400 hover:text-amber-500 hover:border-amber-200"
+                          ? "bg-amber-50 border-amber-300 text-amber-500 shadow-xs hover:bg-amber-100"
+                          : "bg-white border-slate-200 text-slate-400 hover:text-amber-500 hover:border-amber-300 hover:bg-amber-50/50"
                       }`}
                       title={log.favorite ? "Unmark favorite" : "Mark as favorite"}
                     >
-                      <Star className={`w-4 h-4 ${log.favorite ? "fill-amber-400" : ""}`} />
+                      <Star className={`w-4 h-4 transition-transform ${log.favorite ? "fill-amber-400 scale-110" : ""}`} />
                     </button>
 
                     <button
                       type="button"
                       data-testid="btn-delete-reading-log"
                       onClick={() => deleteLog(log.id)}
-                      className="p-2 rounded-lg border border-slate-200 bg-white text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all"
+                      className="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all duration-150 active:scale-90"
                       title="Delete session"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -623,4 +657,3 @@ export default function ReadingLogsPage() {
     </ReadingLogProvider>
   )
 }
-

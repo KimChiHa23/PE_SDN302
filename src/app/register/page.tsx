@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { BookOpen, CheckCircle2 } from "lucide-react"
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("")
@@ -128,42 +129,43 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-palette-100/30 via-slate-50 to-palette-200/20">
-      <Card className="w-full max-w-md shadow-xl border-palette-100 bg-white/95 backdrop-blur-sm">
-        <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-tr from-palette-500 to-palette-300 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-palette-500/20 mb-2">
-            E
+    <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-palette-100/40 via-slate-50 to-palette-200/25 relative">
+      <Card className="w-full max-w-md shadow-xl border-palette-100/80 bg-white/95 backdrop-blur-md rounded-2xl overflow-hidden">
+        <CardHeader className="space-y-2 text-center pb-4 pt-8 bg-gradient-to-b from-palette-100/30 to-transparent">
+          <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-tr from-palette-500 via-palette-400 to-palette-300 flex items-center justify-center text-white shadow-lg shadow-palette-500/25 mb-1">
+            <BookOpen className="w-6 h-6 text-white" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight text-palette-500">
+          <CardTitle className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
             Create an account
           </CardTitle>
-          <CardDescription className="text-slate-500">
-            Sign up today to start managing your data
+          <CardDescription className="text-slate-500 text-sm">
+            Sign up today to start managing your reading logs
           </CardDescription>
         </CardHeader>
 
         <form onSubmit={handleSubmit} noValidate data-testid="register-form">
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-4">
             {success && (
               <div
                 data-testid="form-success"
-                className="p-3 text-sm rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-medium text-center"
+                className="p-3 text-sm rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold text-center flex items-center justify-center gap-2 shadow-xs animate-in fade-in"
               >
-                Registration successful
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <span>Registration successful</span>
               </div>
             )}
 
             {errors.auth && (
               <div
                 data-testid="error-auth"
-                className="p-3 text-sm rounded-lg bg-red-50 border border-red-200 text-red-600 font-medium"
+                className="p-3 text-sm rounded-xl bg-red-50 border border-red-200 text-red-600 font-semibold shadow-xs animate-in fade-in"
               >
                 {errors.auth}
               </div>
             )}
 
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-slate-700 font-medium">
+              <Label htmlFor="email" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                 Email
               </Label>
               <Input
@@ -173,17 +175,17 @@ export default function RegisterPage() {
                 value={email}
                 onChange={handleEmailChange}
                 data-testid="register-email"
-                className={errors.email ? "border-red-500 focus-visible:ring-red-500" : "border-palette-100 focus-visible:ring-palette-400"}
+                className={`rounded-xl h-11 ${errors.email ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-palette-400"}`}
               />
               {errors.email && (
-                <p data-testid="error-email" className="text-xs text-red-500 font-medium mt-1">
+                <p data-testid="error-email" className="text-xs text-red-500 font-semibold mt-1">
                   {errors.email}
                 </p>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-slate-700 font-medium">
+              <Label htmlFor="password" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                 Password
               </Label>
               <Input
@@ -193,17 +195,17 @@ export default function RegisterPage() {
                 value={password}
                 onChange={handlePasswordChange}
                 data-testid="register-password"
-                className={errors.password ? "border-red-500 focus-visible:ring-red-500" : "border-palette-100 focus-visible:ring-palette-400"}
+                className={`rounded-xl h-11 ${errors.password ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-palette-400"}`}
               />
               {errors.password && (
-                <p data-testid="error-password" className="text-xs text-red-500 font-medium mt-1">
+                <p data-testid="error-password" className="text-xs text-red-500 font-semibold mt-1">
                   {errors.password}
                 </p>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="confirmPassword" className="text-slate-700 font-medium">
+              <Label htmlFor="confirmPassword" className="text-slate-700 font-bold text-xs uppercase tracking-wider">
                 Confirm Password
               </Label>
               <Input
@@ -213,31 +215,31 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
                 data-testid="register-confirm-password"
-                className={errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : "border-palette-100 focus-visible:ring-palette-400"}
+                className={`rounded-xl h-11 ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-palette-400"}`}
               />
               {errors.confirmPassword && (
-                <p data-testid="error-confirm-password" className="text-xs text-red-500 font-medium mt-1">
+                <p data-testid="error-confirm-password" className="text-xs text-red-500 font-semibold mt-1">
                   {errors.confirmPassword}
                 </p>
               )}
             </div>
           </CardContent>
 
-          <CardFooter className="flex flex-col space-y-4 pt-2">
+          <CardFooter className="flex flex-col space-y-4 pt-3 pb-8">
             <Button
               type="submit"
               disabled={loading}
               data-testid="register-submit"
-              className="w-full bg-palette-500 hover:bg-palette-400 text-white font-medium py-2 rounded-lg shadow-md shadow-palette-500/20 transition-all hover:shadow-palette-500/30"
+              className="w-full bg-gradient-to-r from-palette-500 to-palette-400 hover:opacity-95 text-white font-bold h-11 rounded-xl shadow-md shadow-palette-500/20 hover:shadow-palette-500/35 transition-all"
             >
               {loading ? "Creating account..." : "Register"}
             </Button>
 
-            <p className="text-sm text-center text-slate-500">
+            <p className="text-sm text-center text-slate-500 font-medium">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-medium text-palette-400 hover:text-palette-500 underline underline-offset-4"
+                className="font-bold text-palette-500 hover:text-palette-400 underline underline-offset-4 transition-colors"
               >
                 Sign in
               </Link>
@@ -248,4 +250,3 @@ export default function RegisterPage() {
     </div>
   )
 }
-
