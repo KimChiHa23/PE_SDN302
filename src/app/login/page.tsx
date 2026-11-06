@@ -85,7 +85,7 @@ export default function LoginPage() {
         return
       }
 
-      router.push("/expenses")
+      router.push("/reading-logs")
       router.refresh()
     } catch {
       setErrors({ auth: "An unexpected error occurred" })
@@ -98,13 +98,13 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl border-palette-100 bg-white/95 backdrop-blur-sm">
         <CardHeader className="space-y-1 text-center">
           <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-tr from-palette-500 to-palette-300 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-palette-500/20 mb-2">
-            E
+            R
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight text-palette-500">
             Welcome back
           </CardTitle>
           <CardDescription className="text-slate-500">
-            Enter your credentials to access your account
+            Enter your credentials to access your reading logs
           </CardDescription>
         </CardHeader>
 
@@ -185,4 +185,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

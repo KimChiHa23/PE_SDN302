@@ -39,10 +39,10 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-palette-500 to-palette-300 flex items-center justify-center text-white font-bold shadow-md shadow-palette-500/20 group-hover:scale-105 transition-transform">
-            E
+            R
           </div>
           <span className="font-bold text-xl text-palette-500 tracking-tight">
-            ExpenseTrail
+            ReadLog
           </span>
         </Link>
 
@@ -52,11 +52,11 @@ export function Navbar() {
           ) : user ? (
             <div className="flex items-center gap-4">
               <Link
-                href="/expenses"
-                data-testid="link-expenses"
+                href="/reading-logs"
+                data-testid="link-reading-logs"
                 className="text-sm font-medium text-palette-400 hover:text-palette-500 transition-colors"
               >
-                Expenses
+                Reading Logs
               </Link>
               <span
                 data-testid="user-email"
@@ -100,4 +100,3 @@ export function Navbar() {
     </header>
   )
 }
-

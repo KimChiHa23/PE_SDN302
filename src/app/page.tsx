@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ShieldCheck, Sparkles, Zap, ArrowRight, BarChart3, Tag } from "lucide-react"
+import { BookOpen, Sparkles, Tag, Clock, ArrowRight } from "lucide-react"
 
 export default function Home() {
   return (
@@ -12,18 +12,18 @@ export default function Home() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-palette-100 border border-palette-200 text-palette-500 text-xs sm:text-sm font-medium shadow-sm">
             <Sparkles className="w-4 h-4 text-palette-400" />
-            <span>Smart Personal Expense Tracking</span>
+            <span>Smart Personal Reading Session Tracker</span>
           </div>
 
           <h1
             data-testid="home-title"
             className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900"
           >
-            Expense<span className="text-palette-500">Trail</span>
+            Read<span className="text-palette-500">Log</span>
           </h1>
 
           <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed">
-            Easily track what was spent, how much, on which category, and when. Keep important expenses starred and view real-time spending summaries.
+            Keep track of your daily reading habits: which book you read, how many minutes you spent, what genre it belongs to, and mark your favorite sessions.
           </p>
         </div>
 
@@ -56,11 +56,11 @@ export default function Home() {
           <Card className="border-palette-100 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-palette-300 transition-all">
             <CardHeader>
               <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
-                <Zap className="w-5 h-5" />
+                <BookOpen className="w-5 h-5" />
               </div>
-              <CardTitle className="text-lg font-bold text-slate-800">Track spending</CardTitle>
+              <CardTitle className="text-lg font-bold text-slate-800">Log every session</CardTitle>
               <CardDescription className="text-slate-500">
-                Log expenses quickly with accurate amounts, dates, notes, and favorite star marks.
+                Record book titles, minutes read, notes, and favorite highlights with complete date tracking.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -70,9 +70,9 @@ export default function Home() {
               <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
                 <Tag className="w-5 h-5" />
               </div>
-              <CardTitle className="text-lg font-bold text-slate-800">Sort into categories</CardTitle>
+              <CardTitle className="text-lg font-bold text-slate-800">Sort by genre</CardTitle>
               <CardDescription className="text-slate-500">
-                Organize costs into Food, Transport, Bills, Shopping, or Other with instant filtering.
+                Categorize your sessions into Fiction, Non-Fiction, Sci-Fi, Biography, or Other.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -80,11 +80,11 @@ export default function Home() {
           <Card className="border-palette-100 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-palette-300 transition-all">
             <CardHeader>
               <div className="w-10 h-10 rounded-xl bg-palette-100 text-palette-500 flex items-center justify-center mb-2">
-                <BarChart3 className="w-5 h-5" />
+                <Clock className="w-5 h-5" />
               </div>
-              <CardTitle className="text-lg font-bold text-slate-800">See where it goes</CardTitle>
+              <CardTitle className="text-lg font-bold text-slate-800">See minutes read</CardTitle>
               <CardDescription className="text-slate-500">
-                Get an instant live breakdown by category and total amounts at a single glance.
+                View instant breakdowns of total minutes and session counts per genre dynamically.
               </CardDescription>
             </CardHeader>
           </Card>
