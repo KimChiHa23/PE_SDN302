@@ -501,21 +501,17 @@ function ReadingLogsContent() {
             </CardContent>
           </Card>
 
-          {/* List of Sessions */}
-          <div data-testid="reading-log-list" className="space-y-3">
-            {logs.length === 0 ? (
-              <div
-                data-testid="reading-logs-empty"
-                className="p-12 text-center bg-white rounded-xl border border-palette-100 shadow-sm text-slate-400"
-              >
-                <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-30 text-palette-400" />
-                <p className="text-base font-semibold text-slate-600">No reading sessions found</p>
-                <p className="text-xs text-slate-400 mt-1">
-                  Try adjusting your filters or record a new session above.
-                </p>
-              </div>
-            ) : (
-              logs.map((log: ReadingLog) => (
+          {/* List or Empty State */}
+          {logs.length === 0 ? (
+            <div
+              data-testid="reading-logs-empty"
+              className="p-12 text-center bg-white rounded-xl border border-palette-100 shadow-sm text-base font-semibold text-slate-600"
+            >
+              No reading sessions found
+            </div>
+          ) : (
+            <div data-testid="reading-log-list" className="space-y-3">
+              {logs.map((log: ReadingLog) => (
                 <div
                   key={log.id}
                   data-testid="reading-log-item"
@@ -587,9 +583,9 @@ function ReadingLogsContent() {
                     </button>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
       </div>
